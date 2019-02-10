@@ -1,9 +1,7 @@
 package jpa;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Date {
@@ -18,4 +16,8 @@ public class Date {
 
     @ManyToOne
     private ElementSondage elementSondage;
+
+    @ManyToMany
+    @JoinColumn
+    private Collection<Reunion> mesReunions;
 }

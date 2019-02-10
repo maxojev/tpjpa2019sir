@@ -17,4 +17,6 @@ public class Reunion {
 
     @ManyToOne
     private ElementSondage monElementSondage;
+
+
 }
