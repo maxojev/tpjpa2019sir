@@ -20,4 +20,7 @@ public class Personne {
 
     @ManyToOne
     private ElementSondage elementSondage;
+
+    @OneToMany(mappedBy = "createur")
+    private Collection<Reunion> mesReunionsCreees;
 }
