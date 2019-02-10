@@ -18,9 +18,9 @@ public class JpaTest {
 
 		try {
 			Personne personne = new Personne();
-//			personne.setNom("WOLOU");
-//			personne.setPrenom("Mike");
-//			personne.setMail("test");
+			personne.setNom("WOLOU");
+			personne.setPrenom("Mike");
+			personne.setMail("test");
 
 			manager.persist(personne);
 

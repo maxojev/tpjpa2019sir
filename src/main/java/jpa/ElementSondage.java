@@ -21,4 +21,29 @@ public class ElementSondage {
 
     @OneToMany(mappedBy = "monElementSondage")
     private Collection<Reunion> mesReunions;
+
+
+    public Collection<Date> getDatesPossibles() {
+        return datesPossibles;
+    }
+
+    public void setDatesPossibles(Collection<Date> datesPossibles) {
+        this.datesPossibles = datesPossibles;
+    }
+
+    public Collection<Personne> getMesParticipants() {
+        return mesParticipants;
+    }
+
+    public void setMesParticipants(Collection<Personne> mesParticipants) {
+        this.mesParticipants = mesParticipants;
+    }
+
+    public Collection<Reunion> getMesReunions() {
+        return mesReunions;
+    }
+
+    public void setMesReunions(Collection<Reunion> mesReunions) {
+        this.mesReunions = mesReunions;
+    }
 }
