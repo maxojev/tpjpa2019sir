@@ -19,7 +19,7 @@ public class Personne {
     FicheBouffe ficheBouffe;
 
     @ManyToOne
-    private ElementSondage elementSondage;
+    private ElementSondage participeElementSondage;
 
     @OneToMany(mappedBy = "createur")
     private Collection<Reunion> mesReunionsCreees;

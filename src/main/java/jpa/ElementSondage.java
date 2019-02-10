@@ -16,6 +16,9 @@ public class ElementSondage {
     @OneToMany(mappedBy = "elementSondage")
     private Collection<Date> datesPossibles;
 
-    @OneToMany(mappedBy = "elementSondage")
+    @OneToMany(mappedBy = "participeElementSondage")
     private Collection<Personne> mesParticipants;
+
+    @OneToMany(mappedBy = "monElementSondage")
+    private Collection<Reunion> mesReunions;
 }

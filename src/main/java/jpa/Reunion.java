@@ -1,9 +1,6 @@
 package jpa;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Reunion {
@@ -17,4 +14,7 @@ public class Reunion {
 
     @ManyToOne
     private Personne createur;
+
+    @ManyToOne
+    private ElementSondage monElementSondage;
 }
