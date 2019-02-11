@@ -1,8 +1,6 @@
 package jpa;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -15,6 +13,9 @@ public class FicheBouffe {
     private String allergie;
 
 
+    @OneToOne
+    @JoinColumn
+    private Personne personne;
 
 
     public String getPreference() {

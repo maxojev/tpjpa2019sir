@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class Date {
+public class Sdate {
 
     @Id
     @GeneratedValue
@@ -14,16 +14,20 @@ public class Date {
     private java.sql.Date date;
     private Boolean pause;
 
-    @ManyToOne
-    private ElementSondage elementSondage;
-
-    @ManyToMany
-    @JoinColumn
-    private Collection<Reunion> mesReunions;
-
-    @OneToOne(mappedBy = "dateValide")
+    @OneToOne(mappedBy = "dateValidee")
     private Reunion reunion;
 
+    @OneToMany(mappedBy = "dateChoisie")
+    private Collection<ElementSondage> mesElementsSondages;
+
+
+    public Sdate() {
+    }
+
+    public Sdate(java.sql.Date date, Boolean pause) {
+        this.date = date;
+        this.pause = pause;
+    }
 
     public java.sql.Date getDate() {
         return date;
@@ -41,27 +45,19 @@ public class Date {
         this.pause = pause;
     }
 
-    public ElementSondage getElementSondage() {
-        return elementSondage;
-    }
-
-    public void setElementSondage(ElementSondage elementSondage) {
-        this.elementSondage = elementSondage;
-    }
-
-    public Collection<Reunion> getMesReunions() {
-        return mesReunions;
-    }
-
-    public void setMesReunions(Collection<Reunion> mesReunions) {
-        this.mesReunions = mesReunions;
-    }
-
     public Reunion getReunion() {
         return reunion;
     }
 
     public void setReunion(Reunion reunion) {
         this.reunion = reunion;
+    }
+
+    public Collection<ElementSondage> getMesElementsSondages() {
+        return mesElementsSondages;
+    }
+
+    public void setMesElementsSondages(Collection<ElementSondage> mesElementsSondages) {
+        this.mesElementsSondages = mesElementsSondages;
     }
 }

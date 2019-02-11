@@ -1,6 +1,7 @@
 package jpa;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Reunion {
@@ -15,11 +16,26 @@ public class Reunion {
     @ManyToOne
     private Personne createur;
 
-    @ManyToOne
-    private ElementSondage monElementSondage;
+    @OneToMany(mappedBy = "mareunion")
+    private Collection<ElementSondage> mesElementSondage;
+
+    @ManyToMany
+    @JoinColumn
+    private Collection<Sdate> datesProposees;
 
     @OneToOne
-    private Date dateValide;
+    private Sdate dateValidee;
+
+
+    public Reunion(String intitule) {
+    }
+
+    public Reunion(String intitule, String resume, Personne createur, Collection<Sdate> datesProposees) {
+        this.intitule = intitule;
+        this.resume = resume;
+        this.createur = createur;
+        this.datesProposees = datesProposees;
+    }
 
     public String getIntitule() {
         return intitule;
@@ -45,19 +61,27 @@ public class Reunion {
         this.createur = createur;
     }
 
-    public ElementSondage getMonElementSondage() {
-        return monElementSondage;
+    public Collection<ElementSondage> getMesElementSondage() {
+        return mesElementSondage;
     }
 
-    public void setMonElementSondage(ElementSondage monElementSondage) {
-        this.monElementSondage = monElementSondage;
+    public void setMesElementSondage(Collection<ElementSondage> mesElementSondage) {
+        this.mesElementSondage = mesElementSondage;
     }
 
-    public Date getDateValide() {
-        return dateValide;
+    public Collection<Sdate> getDatesProposees() {
+        return datesProposees;
     }
 
-    public void setDateValide(Date dateValide) {
-        this.dateValide = dateValide;
+    public void setDatesProposees(Collection<Sdate> datesProposees) {
+        this.datesProposees = datesProposees;
+    }
+
+    public Sdate getDateValidee() {
+        return dateValidee;
+    }
+
+    public void setDateValidee(Sdate dateValidee) {
+        this.dateValidee = dateValidee;
     }
 }

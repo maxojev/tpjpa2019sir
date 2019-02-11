@@ -1,10 +1,6 @@
 package jpa;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.Collection;
+import javax.persistence.*;
 
 @Entity
 public class ElementSondage {
@@ -13,37 +9,44 @@ public class ElementSondage {
     @GeneratedValue
     private Long idElementSondage;
 
-    @OneToMany(mappedBy = "elementSondage")
-    private Collection<Date> datesPossibles;
+    @ManyToOne
+    private Sdate dateChoisie;
 
-    @OneToMany(mappedBy = "participeElementSondage")
-    private Collection<Personne> mesParticipants;
+    @ManyToOne
+    private Personne participant;
 
-    @OneToMany(mappedBy = "monElementSondage")
-    private Collection<Reunion> mesReunions;
+    @ManyToOne
+    private Reunion mareunion;
 
+    public ElementSondage() {}
 
-    public Collection<Date> getDatesPossibles() {
-        return datesPossibles;
+    public ElementSondage(Sdate dateChoisie, Personne participant, Reunion mareunion) {
+        this.dateChoisie = dateChoisie;
+        this.participant = participant;
+        this.mareunion = mareunion;
     }
 
-    public void setDatesPossibles(Collection<Date> datesPossibles) {
-        this.datesPossibles = datesPossibles;
+    public Sdate getDateChoisie() {
+        return dateChoisie;
     }
 
-    public Collection<Personne> getMesParticipants() {
-        return mesParticipants;
+    public void setDateChoisie(Sdate dateChoisie) {
+        this.dateChoisie = dateChoisie;
     }
 
-    public void setMesParticipants(Collection<Personne> mesParticipants) {
-        this.mesParticipants = mesParticipants;
+    public Personne getParticipant() {
+        return participant;
     }
 
-    public Collection<Reunion> getMesReunions() {
-        return mesReunions;
+    public void setParticipant(Personne participant) {
+        this.participant = participant;
     }
 
-    public void setMesReunions(Collection<Reunion> mesReunions) {
-        this.mesReunions = mesReunions;
+    public Reunion getMareunion() {
+        return mareunion;
+    }
+
+    public void setMareunion(Reunion mareunion) {
+        this.mareunion = mareunion;
     }
 }

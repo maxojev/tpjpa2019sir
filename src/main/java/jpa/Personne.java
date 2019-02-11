@@ -14,16 +14,19 @@ public class Personne {
     private String prenom;
     private String mail;
 
-    @OneToOne
-    @JoinColumn
-    FicheBouffe ficheBouffe;
+    public Personne() { }
 
-    @ManyToOne
-    private ElementSondage participeElementSondage;
+    public Personne(String nom, String prenom, String mail) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+    }
+
+    @OneToMany(mappedBy = "participant")
+    private Collection<ElementSondage> mesparticipations;
 
     @OneToMany(mappedBy = "createur")
     private Collection<Reunion> mesReunionsCreees;
-
 
     public String getNom() {
         return nom;
@@ -49,20 +52,12 @@ public class Personne {
         this.mail = mail;
     }
 
-    public FicheBouffe getFicheBouffe() {
-        return ficheBouffe;
+    public Collection<ElementSondage> getMesparticipations() {
+        return mesparticipations;
     }
 
-    public void setFicheBouffe(FicheBouffe ficheBouffe) {
-        this.ficheBouffe = ficheBouffe;
-    }
-
-    public ElementSondage getParticipeElementSondage() {
-        return participeElementSondage;
-    }
-
-    public void setParticipeElementSondage(ElementSondage participeElementSondage) {
-        this.participeElementSondage = participeElementSondage;
+    public void setMesparticipations(Collection<ElementSondage> mesparticipations) {
+        this.mesparticipations = mesparticipations;
     }
 
     public Collection<Reunion> getMesReunionsCreees() {
