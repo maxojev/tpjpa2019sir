@@ -103,18 +103,27 @@ public class JpaTest {
 		 */
 
 		List id_dateChoisie;
-		 id_dateChoisie = manager.createQuery("select e.dateChoisie, count(e.dateChoisie) " +
-				 "as nbr from ElementSondage e where e.mareunion.idReunion = 1 group by e.dateChoisie ").getResultList();
+		id_dateChoisie = manager.createQuery("select e.dateChoisie.idDate, count(e.dateChoisie.idDate) " +
+				"as nbr from ElementSondage e where e.mareunion.idReunion = 1 group by e.dateChoisie.idDate " +
+				"order by nbr desc ").getResultList();
 
-				 //"order by nbr asc ").getFirstResult();
+		long var= 0;
 
-	/*	 for(Object o : id_dateChoisie){
-		 	Object [] ligne = (Object[]) o;
-			 System.out.println(ligne[1].toString());
-		 }
-*/
+		for(Object ligne : id_dateChoisie)
+		{
+			Object[] l = (Object[]) ligne;
+			Long i = (Long) l[0];
 
-		 System.out.println("l'idTest   "+id_dateChoisie.toString());
+			if(var <= i){ var= i;}
+		}
+		System.out.println("l'idTest   "+var);
+
+		Object dateChoisie =  manager.createQuery("select d.date from Sdate d where d.idDate =:var ").setParameter("var",var).getSingleResult();
+
+		System.out.println("date  "+dateChoisie.toString());
+
+//		}
+
 /*
 		select max (nbr) from
 				(select datechoisie_iddate, count(datechoisie_iddate) as nbr
