@@ -20,6 +20,11 @@ public class JpaTest {
 		Set<Sdate> dateProposees2 = new HashSet<Sdate>();
 		Set<Sdate> dateProposees3 = new HashSet<Sdate>();
 
+		Set<Lieu> lieuProposees1 = new HashSet<Lieu>();
+		Set<Lieu> lieuProposees2 = new HashSet<Lieu>();
+
+
+
 		EntityManager manager = EntityManagerHelper.getEntityManager();
 		EntityTransaction tx = manager.getTransaction();
 		tx.begin();
@@ -57,39 +62,56 @@ public class JpaTest {
 			dateProposees3.add(date5);
 
 
-			Reunion reunion1 = new Reunion("première réunion", "ça va le faire", personneAdmin, dateProposees1);
+			Lieu lieu1 = new Lieu("Chine");
+			manager.persist(lieu1);
+
+			Lieu lieu2 = new Lieu("Togo");
+			manager.persist(lieu2);
+
+			Lieu lieu3 = new Lieu("Benin");
+			manager.persist(lieu3);
+
+			lieuProposees1.add(lieu1);
+			lieuProposees1.add(lieu2);
+			lieuProposees1.add(lieu3);
+
+			lieuProposees2.add(lieu3);
+			lieuProposees2.add(lieu2);
+
+
+			Reunion reunion1 = new Reunion("première réunion", "ça va le faire", personneAdmin, dateProposees1,lieuProposees1);
 			manager.persist(reunion1);
-			Reunion reunion2 = new Reunion("deuxième réunion", "ce n'était pas si nul la première",personneAdmin,dateProposees2);
+			Reunion reunion2 = new Reunion("deuxième réunion", "ce n'était pas si nul la première",personneAdmin,dateProposees2,lieuProposees1);
 			manager.persist(reunion2);
-			Reunion reunion3 = new Reunion("Autre réunion", "je m'essaye aussi",personneA,dateProposees3);
+			Reunion reunion3 = new Reunion("Autre réunion", "je m'essaye aussi",personneA,dateProposees3,lieuProposees2);
 			manager.persist(reunion3);
 
 			/**
 			 * Sondage pour la réunion 1
 			 */
-			ElementSondage elementSondageA1 = new ElementSondage(date0,personneA,reunion1);
-			manager.persist(elementSondageA1);
-			ElementSondage elementSondageA2 = new ElementSondage(date5,personneA,reunion1);
-			manager.persist(elementSondageA2);
-			ElementSondage elementSondageB = new ElementSondage(date0,personneB,reunion1);
-			manager.persist(elementSondageB);
+			ElementSondageDate elementSondageDateA1 = new ElementSondageDate(date0,personneA,reunion1);
+			manager.persist(elementSondageDateA1);
+			ElementSondageDate elementSondageDateA2 = new ElementSondageDate(date5,personneA,reunion1);
+			manager.persist(elementSondageDateA2);
+			ElementSondageDate elementSondageDateB = new ElementSondageDate(date0,personneB,reunion1);
+			manager.persist(elementSondageDateB);
 
 
 			/**
 			 * Sondage pour la réunion 2
 			 */
-			ElementSondage elementSondageA = new ElementSondage(date1,personneA,reunion2);
-			manager.persist(elementSondageA);
-			ElementSondage elementSondageB1 = new ElementSondage(date1,personneB,reunion2);
-			manager.persist(elementSondageB1);
+			ElementSondageLieu elementSondageLieuA = new ElementSondageLieu(lieu1,personneA,reunion2);
+			manager.persist(elementSondageLieuA);
+			ElementSondageLieu elementSondageLieuB1 = new ElementSondageLieu(lieu2,personneB,reunion2);
+			manager.persist(elementSondageLieuB1);
 
 			/**
 			 * Sondage pour la réunion 3
 			 */
-			ElementSondage elementSondageAd = new ElementSondage(date5,personneAdmin,reunion3);
-			manager.persist(elementSondageAd);
-			ElementSondage elementSondageB2 = new ElementSondage(date5,personneB,reunion3);
-			manager.persist(elementSondageB2);
+			ElementSondageDateLieu elementSondageDateLieuAd = new ElementSondageDateLieu(lieu3,date5,personneAdmin,reunion3);
+			manager.persist(elementSondageDateLieuAd);
+			ElementSondageDateLieu elementSondageDateLieuB2 = new ElementSondageDateLieu(lieu3,date5,personneB,reunion3);
+			manager.persist(elementSondageDateLieuB2);
 
 
 		} catch (Exception e) {
@@ -101,7 +123,7 @@ public class JpaTest {
 		/**
 		 * la Date à choisir pour la réunion
 		 */
-
+/*
 		List id_dateChoisie;
 		id_dateChoisie = manager.createQuery("select e.dateChoisie.idDate, count(e.dateChoisie.idDate) " +
 				"as nbr from ElementSondage e where e.mareunion.idReunion = 1 group by e.dateChoisie.idDate " +
@@ -122,37 +144,11 @@ public class JpaTest {
 
 		System.out.println("date  "+dateChoisie.toString());
 
-//		}
-
-/*
-		select max (nbr) from
-				(select datechoisie_iddate, count(datechoisie_iddate) as nbr
-						from elementsondage
-						where mareunion_idreunion = 7
-						group by datechoisie_iddate);
-
-		select datechoisie_iddate, count(datechoisie_iddate) as nbr
-		from elementsondage
-		where mareunion_idreunion = 7
-		group by datechoisie_iddate
-		order by nbr desc
-		limit 1
-
 */
-
-
 		manager.close();
 		EntityManagerHelper.closeEntityManagerFactory();
 		//		factory.close();
 	}
-
-	public void DateAChoisir(){
-		/*List<Employee> resultList = manager.createQuery("Select a From Employee a", Employee.class).getResultList();
-		System.out.println("num of employess:" + resultList.size());
-		for (Employee next : resultList) {
-			System.out.println("next employee: " + next);
-*/
-		}
 
 
 }

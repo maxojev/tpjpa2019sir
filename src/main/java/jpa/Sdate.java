@@ -1,6 +1,7 @@
 package jpa;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Collection;
 
 @Entity
@@ -18,7 +19,10 @@ public class Sdate {
     private Reunion reunion;
 
     @OneToMany(mappedBy = "dateChoisie")
-    private Collection<ElementSondage> mesElementsSondages;
+    private Collection<ElementSondageDate> mesElementsSondagesDate;
+
+    @OneToMany(mappedBy = "dateChoisie_bis")
+    private Collection<ElementSondageDateLieu> mesElementsSondagesDateLieu;
 
 
     public Sdate() {
@@ -29,11 +33,11 @@ public class Sdate {
         this.pause = pause;
     }
 
-    public java.sql.Date getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(java.sql.Date date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -53,6 +57,23 @@ public class Sdate {
         this.reunion = reunion;
     }
 
+    public Collection<ElementSondageDate> getMesElementsSondagesDate() {
+        return mesElementsSondagesDate;
+    }
+
+    public void setMesElementsSondagesDate(Collection<ElementSondageDate> mesElementsSondagesDate) {
+        this.mesElementsSondagesDate = mesElementsSondagesDate;
+    }
+
+    public Collection<ElementSondageDateLieu> getMesElementsSondagesDateLieu() {
+        return mesElementsSondagesDateLieu;
+    }
+
+    public void setMesElementsSondagesDateLieu(Collection<ElementSondageDateLieu> mesElementsSondagesDateLieu) {
+        this.mesElementsSondagesDateLieu = mesElementsSondagesDateLieu;
+    }
+
+    /*
     public Collection<ElementSondage> getMesElementsSondages() {
         return mesElementsSondages;
     }
@@ -60,4 +81,7 @@ public class Sdate {
     public void setMesElementsSondages(Collection<ElementSondage> mesElementsSondages) {
         this.mesElementsSondages = mesElementsSondages;
     }
+*/
+
+
 }

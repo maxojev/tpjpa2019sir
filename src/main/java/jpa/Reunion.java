@@ -23,18 +23,26 @@ public class Reunion {
     @JoinColumn
     private Collection<Sdate> datesProposees;
 
+    @ManyToMany
+    @JoinColumn
+    private Collection<Lieu> lieuProposes;
+
     @OneToOne
     private Sdate dateValidee;
 
+    @OneToOne
+    private Lieu lieuValide;
 
-    public Reunion(String intitule) {
+
+    public Reunion() {
     }
 
-    public Reunion(String intitule, String resume, Personne createur, Collection<Sdate> datesProposees) {
+    public Reunion(String intitule, String resume, Personne createur, Collection<Sdate> datesProposees, Collection<Lieu> lieuProposes) {
         this.intitule = intitule;
         this.resume = resume;
         this.createur = createur;
         this.datesProposees = datesProposees;
+        this.lieuProposes = lieuProposes;
     }
 
     public String getIntitule() {
@@ -77,11 +85,27 @@ public class Reunion {
         this.datesProposees = datesProposees;
     }
 
+    public Collection<Lieu> getLieuProposes() {
+        return lieuProposes;
+    }
+
+    public void setLieuProposes(Collection<Lieu> lieuProposes) {
+        this.lieuProposes = lieuProposes;
+    }
+
     public Sdate getDateValidee() {
         return dateValidee;
     }
 
     public void setDateValidee(Sdate dateValidee) {
         this.dateValidee = dateValidee;
+    }
+
+    public Lieu getLieuValide() {
+        return lieuValide;
+    }
+
+    public void setLieuValide(Lieu lieuValide) {
+        this.lieuValide = lieuValide;
     }
 }
