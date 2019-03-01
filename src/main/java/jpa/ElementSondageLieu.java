@@ -7,6 +7,8 @@ import javax.persistence.*;
 @DiscriminatorValue("ESL")
 public class ElementSondageLieu extends ElementSondage{
 
+    private static final long serialVersionUID = 1L;
+
     @ManyToOne
     private Lieu lieuChoisie;
 

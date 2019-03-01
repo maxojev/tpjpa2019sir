@@ -6,6 +6,8 @@ import javax.persistence.*;
 @DiscriminatorValue("ESD")
 public class ElementSondageDate extends ElementSondage {
 
+    private static final long serialVersionUID = 1L;
+
     @ManyToOne
     private Sdate dateChoisie;
 
