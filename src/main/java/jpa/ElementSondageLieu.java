@@ -20,5 +20,6 @@ public class ElementSondageLieu extends ElementSondage{
     }
 
     public ElementSondageLieu() {
+ //       super();
     }
 }

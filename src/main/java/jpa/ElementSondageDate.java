@@ -13,6 +13,7 @@ public class ElementSondageDate extends ElementSondage {
 
 
     public ElementSondageDate() {
+ //       super();
     }
 
     public ElementSondageDate(Sdate dateChoisie,Personne personne,Reunion reunion) {

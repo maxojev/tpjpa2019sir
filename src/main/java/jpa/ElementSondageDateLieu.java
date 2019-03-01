@@ -17,6 +17,7 @@ public class ElementSondageDateLieu extends ElementSondage {
 
 
     public ElementSondageDateLieu() {
+ //       super();
 
     }
 
