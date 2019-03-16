@@ -12,7 +12,7 @@ public class Sdate {
     private Long idDate;
 
 
-    private java.sql.Date date;
+    private java.sql.Date madate;
     private Boolean pause;
 
     @OneToOne(mappedBy = "dateValidee")
@@ -29,16 +29,16 @@ public class Sdate {
     }
 
     public Sdate(java.sql.Date date, Boolean pause) {
-        this.date = date;
+        this.madate = date;
         this.pause = pause;
     }
 
     public Date getDate() {
-        return date;
+        return madate;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.madate = date;
     }
 
     public Boolean getPause() {

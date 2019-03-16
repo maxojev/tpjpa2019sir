@@ -67,4 +67,13 @@ public class Personne {
     public void setMesReunionsCreees(Collection<Reunion> mesReunionsCreees) {
         this.mesReunionsCreees = mesReunionsCreees;
     }
+
+    @Override
+    public String toString() {
+        return "Personne{" +
+                "nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", mail='" + mail + '\'' +
+                '}';
+    }
 }

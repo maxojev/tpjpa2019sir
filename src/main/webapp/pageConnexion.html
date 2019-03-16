@@ -1,0 +1,35 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://www.w3.org/1999/XSL/Transform" xml:lang="en">
+  <head>
+    <title>Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="default.css" rel="stylesheet" type="text/css" media="all" />
+   </head>
+  <body>
+      <div id="wrapper">
+          <h1>Login</h1>
+          <form action="Connect" method="post">
+            <div class="input">
+                <label for="username">
+                    <c:if test="${hasErrors}">
+                       <span class='error'>* </span>                        
+                    </c:if>Username: 
+                </label>
+                <input type="text" id="username" name="username" />
+            </div><div class="clearer">&nbsp;</div>
+            <div class="input">
+                <label for="password">
+                    <c:if test="${hasErrors}">
+                        <span class='error'>* </span>
+                    </c:if> Password: 
+                </label>
+                <input type="password" id="password" name="password" />
+            </div><div class="clearer">&nbsp;</div>
+            <div class="inputSubmit">
+                <input type="submit" value="Submit" />
+            </div>
+          </form>
+      </div><!-- end of wrapper -->
+  </body>
+</html>
