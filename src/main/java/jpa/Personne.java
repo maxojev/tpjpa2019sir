@@ -1,5 +1,9 @@
 package jpa;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -23,9 +27,11 @@ public class Personne {
     }
 
     @OneToMany(mappedBy = "participant", cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Collection<ElementSondage> mesparticipations;
 
     @OneToMany(mappedBy = "createur",cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Collection<Reunion> mesReunionsCreees;
 
     public String getNom() {

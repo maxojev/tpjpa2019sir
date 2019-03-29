@@ -1,5 +1,8 @@
 package jpa;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
@@ -20,9 +23,11 @@ public class Sdate {
     private Reunion reunion;
 
     @OneToMany(mappedBy = "dateChoisie", cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Collection<ElementSondageDate> mesElementsSondagesDate;
 
     @OneToMany(mappedBy = "dateChoisie_bis", cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Collection<ElementSondageDateLieu> mesElementsSondagesDateLieu;
 
 

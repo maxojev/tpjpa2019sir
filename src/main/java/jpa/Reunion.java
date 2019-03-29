@@ -1,5 +1,7 @@
 package jpa;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -16,17 +18,21 @@ public class Reunion {
     private String resume;
 
     @ManyToOne
+    @JsonManagedReference
     private Personne createur;
 
     @OneToMany(mappedBy = "mareunion", cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Collection<ElementSondage> mesElementSondage;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn
+    @JsonBackReference
     private Collection<Sdate> datesProposees;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn
+    @JsonBackReference
     private Collection<Lieu> lieuProposes;
 
     @OneToOne(cascade = CascadeType.PERSIST)

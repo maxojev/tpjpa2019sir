@@ -1,6 +1,9 @@
 package jpa;
 
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -18,9 +21,11 @@ public class Lieu {
     private Reunion reunion;
 
     @OneToMany(mappedBy = "lieuChoisie", cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Collection<ElementSondageLieu> mesElementsSondagesLieu;
 
     @OneToMany(mappedBy = "lieuChoisie_bis", cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Collection<ElementSondageDateLieu> mesElementsSondagesDateLieu;
 
     /*

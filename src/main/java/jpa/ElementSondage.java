@@ -1,5 +1,8 @@
 package jpa;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,9 +16,11 @@ public abstract class ElementSondage implements Serializable {
     protected Long idElementSondage;
 
     @ManyToOne
+    @JsonManagedReference
     protected Personne participant;
 
     @ManyToOne
+    @JsonManagedReference
     protected Reunion mareunion;
 
 
