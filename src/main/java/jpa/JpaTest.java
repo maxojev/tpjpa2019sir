@@ -3,9 +3,7 @@ package jpa;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.sql.Date;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class JpaTest {

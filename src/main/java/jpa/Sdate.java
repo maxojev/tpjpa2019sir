@@ -7,6 +7,7 @@ import java.util.Collection;
 @Entity
 public class Sdate {
 
+
     @Id
     @GeneratedValue
     private Long idDate;
@@ -15,13 +16,13 @@ public class Sdate {
     private java.sql.Date madate;
     private Boolean pause;
 
-    @OneToOne(mappedBy = "dateValidee")
+    @OneToOne(mappedBy = "dateValidee", cascade = CascadeType.PERSIST)
     private Reunion reunion;
 
-    @OneToMany(mappedBy = "dateChoisie")
+    @OneToMany(mappedBy = "dateChoisie", cascade = CascadeType.PERSIST)
     private Collection<ElementSondageDate> mesElementsSondagesDate;
 
-    @OneToMany(mappedBy = "dateChoisie_bis")
+    @OneToMany(mappedBy = "dateChoisie_bis", cascade = CascadeType.PERSIST)
     private Collection<ElementSondageDateLieu> mesElementsSondagesDateLieu;
 
 
@@ -31,6 +32,10 @@ public class Sdate {
     public Sdate(java.sql.Date date, Boolean pause) {
         this.madate = date;
         this.pause = pause;
+    }
+
+    public Long getIdDate() {
+        return idDate;
     }
 
     public Date getDate() {
@@ -72,16 +77,4 @@ public class Sdate {
     public void setMesElementsSondagesDateLieu(Collection<ElementSondageDateLieu> mesElementsSondagesDateLieu) {
         this.mesElementsSondagesDateLieu = mesElementsSondagesDateLieu;
     }
-
-    /*
-    public Collection<ElementSondage> getMesElementsSondages() {
-        return mesElementsSondages;
-    }
-
-    public void setMesElementsSondages(Collection<ElementSondage> mesElementsSondages) {
-        this.mesElementsSondages = mesElementsSondages;
-    }
-*/
-
-
 }

@@ -4,17 +4,16 @@ package jpa;
 import javax.persistence.*;
 
 @Entity
-@DiscriminatorValue("ESDL")
+@PrimaryKeyJoinColumn(name = "idElementSondage")
 public class ElementSondageDateLieu extends ElementSondage {
 
-    private static final long serialVersionUID = 1L;
 
     @ManyToOne
     private Lieu lieuChoisie_bis;
 
     @ManyToOne
     private Sdate dateChoisie_bis;
-    //tpjpa2019sir
+
 
     public ElementSondageDateLieu() {
  //       super();
@@ -22,11 +21,13 @@ public class ElementSondageDateLieu extends ElementSondage {
     }
 
     public ElementSondageDateLieu(Lieu lieuChoisie_bis, Sdate dateChoisie_bis, Personne personne, Reunion reunion) {
+
+        super(personne,reunion);
         this.lieuChoisie_bis = lieuChoisie_bis;
         this.dateChoisie_bis = dateChoisie_bis;
-        this.participant = personne;
-        this.mareunion = reunion;
     }
+
+
 
     public Lieu getLieuChoisie_bis() {
         return lieuChoisie_bis;

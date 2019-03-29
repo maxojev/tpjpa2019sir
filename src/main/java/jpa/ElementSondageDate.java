@@ -3,23 +3,20 @@ package jpa;
 import javax.persistence.*;
 
 @Entity
-@DiscriminatorValue("ESD")
+@PrimaryKeyJoinColumn(name = "idElementSondage")
 public class ElementSondageDate extends ElementSondage {
 
-    private static final long serialVersionUID = 1L;
 
     @ManyToOne
     private Sdate dateChoisie;
 
 
     public ElementSondageDate() {
- //       super();
     }
 
     public ElementSondageDate(Sdate dateChoisie,Personne personne,Reunion reunion) {
+        super(personne,reunion);
         this.dateChoisie = dateChoisie;
-        this.participant = personne;
-        this.mareunion = reunion;
     }
 
     public Sdate getDateChoisie() {

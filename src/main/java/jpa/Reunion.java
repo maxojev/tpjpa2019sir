@@ -1,5 +1,7 @@
 package jpa;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -16,21 +18,21 @@ public class Reunion {
     @ManyToOne
     private Personne createur;
 
-    @OneToMany(mappedBy = "mareunion")
+    @OneToMany(mappedBy = "mareunion", cascade = CascadeType.PERSIST)
     private Collection<ElementSondage> mesElementSondage;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn
     private Collection<Sdate> datesProposees;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn
     private Collection<Lieu> lieuProposes;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Sdate dateValidee;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Lieu lieuValide;
 
 
@@ -43,6 +45,14 @@ public class Reunion {
         this.createur = createur;
         this.datesProposees = datesProposees;
         this.lieuProposes = lieuProposes;
+    }
+
+    public void setIdReunion(Long idReunion) {
+        this.idReunion = idReunion;
+    }
+
+    public Long getIdReunion() {
+        return idReunion;
     }
 
     public String getIntitule() {

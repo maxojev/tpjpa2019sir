@@ -22,10 +22,10 @@ public class Personne {
         this.mail = mail;
     }
 
-    @OneToMany(mappedBy = "participant")
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.PERSIST)
     private Collection<ElementSondage> mesparticipations;
 
-    @OneToMany(mappedBy = "createur")
+    @OneToMany(mappedBy = "createur",cascade = CascadeType.PERSIST)
     private Collection<Reunion> mesReunionsCreees;
 
     public String getNom() {
@@ -50,6 +50,10 @@ public class Personne {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public void setIdPersonne(long idPersonne) {
+        this.idPersonne = idPersonne;
     }
 
     public Collection<ElementSondage> getMesparticipations() {

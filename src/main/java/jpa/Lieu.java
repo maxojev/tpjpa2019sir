@@ -7,18 +7,20 @@ import java.util.Collection;
 @Entity
 public class Lieu {
 
+
+
     @Id
     @GeneratedValue
     private Long iDLieu;
     private String nomLieu;
 
-    @OneToOne(mappedBy = "lieuValide")
+    @OneToOne(mappedBy = "lieuValide",cascade = CascadeType.PERSIST)
     private Reunion reunion;
 
-    @OneToMany(mappedBy = "lieuChoisie")
+    @OneToMany(mappedBy = "lieuChoisie", cascade = CascadeType.PERSIST)
     private Collection<ElementSondageLieu> mesElementsSondagesLieu;
 
-    @OneToMany(mappedBy = "lieuChoisie_bis")
+    @OneToMany(mappedBy = "lieuChoisie_bis", cascade = CascadeType.PERSIST)
     private Collection<ElementSondageDateLieu> mesElementsSondagesDateLieu;
 
     /*
@@ -65,5 +67,9 @@ public class Lieu {
 
     public void setMesElementsSondagesDateLieu(Collection<ElementSondageDateLieu> mesElementsSondagesDateLieu) {
         this.mesElementsSondagesDateLieu = mesElementsSondagesDateLieu;
+    }
+
+    public Long getiDLieu() {
+        return iDLieu;
     }
 }
