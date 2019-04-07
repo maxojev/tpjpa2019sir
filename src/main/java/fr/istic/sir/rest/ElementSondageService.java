@@ -56,7 +56,6 @@ public class ElementSondageService {
 
 
         if (!r.getDatesProposees().isEmpty() && !r.getLieuProposes().isEmpty()) {
-            System.out.println("test1"+r.getDatesProposees());
 
             Sdate datechoisie = sdateDao.getDateById(sondage.getLong("idDatechoisie"));
             Lieu lieuchoisie = lieuDao.getLieuById(sondage.getLong("idLieuchoisie"));
@@ -64,7 +63,6 @@ public class ElementSondageService {
            elementSondageDao.saveDL(new ElementSondageDateLieu(lieuchoisie, datechoisie, participant, r));
 
         } else if (!r.getDatesProposees().isEmpty() && r.getLieuProposes().isEmpty()) {
-            System.out.println("test2");
 
             Sdate datechoisie = sdateDao.getDateById(sondage.getLong("idDatechoisie"));
             elementSondageDao.saveD(new ElementSondageDate(datechoisie, participant, r));

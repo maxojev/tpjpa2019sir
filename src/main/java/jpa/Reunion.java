@@ -36,9 +36,11 @@ public class Reunion {
     private Collection<Lieu> lieuProposes;
 
     @OneToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Sdate dateValidee;
 
     @OneToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Lieu lieuValide;
 
 

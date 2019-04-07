@@ -7,7 +7,6 @@ import jpa.Sdate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 import java.sql.Date;
 import java.util.List;
 
@@ -30,11 +29,8 @@ public class ReunionDao {
     }
 
     public List<Reunion> getAllReunion(){
-        Query query = manager.createNativeQuery(  "SELECT idReunion,intitule, resume  FROM REUNION");
 
-        List<Reunion> rs = query.getResultList();
-
-        return rs;
+        return (manager.createQuery("select r.idReunion,r.intitule,r.resume,r.dateValidee,r.lieuValide from Reunion r").getResultList());
     }
 
     public Reunion getOneReunion(Long idReunion){
@@ -86,8 +82,6 @@ public class ReunionDao {
 
         String var = "";
 
-        System.out.println("TestMax "+rsd.toString());
-
         for(Object ligne : rsd)
         {
             var = (String)ligne;
@@ -97,7 +91,7 @@ public class ReunionDao {
 
     }
 
-    private long traitementListTolong(List rs){
+    protected long traitementListTolong(List rs){
 
         long var= 0;
 

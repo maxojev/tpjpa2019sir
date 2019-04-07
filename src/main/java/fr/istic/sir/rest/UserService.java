@@ -20,19 +20,35 @@ public class UserService {
     Personne personne ;
     UserDao userDao = new UserDao();
 
+    /**
+     * Cette méthode permet de vérifier qu'un utilisateur voulant utiliser un service existe
+     * dans la base et retourne l'Id de cette personne après vérification. Il est requis pour
+     * toute utilisation.
+     *
+     * @param user
+     * @return Personne
+     * @throws JSONException
+     */
+
     @POST
     @Path("/valideLogin")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Boolean ValidLogin(JSONObject user) throws JSONException {
+    public Personne ValidLogin(JSONObject user) throws JSONException {
 
         userDao =new UserDao();
         personne = new Personne(user.getString("nom"),user.getString("prenom"),user.getString("mail"));
-        personne.setIdPersonne(1);
-
-        System.out.println(personne.getMail());
-        return userDao.validateLogin(personne);
+        personne.setIdPersonne(userDao.validateLogin(personne));
+        return personne;
     }
+
+    /**
+     *Cette méthode sera utilisée par un admin pour ajouter un utilisateur
+     * dans la base de données
+     * @param user
+     * @return
+     * @throws JSONException
+     */
 
     @POST
     @Path("/addUser")
@@ -45,6 +61,10 @@ public class UserService {
     }
 
 
+    /**
+     * Cette méthode tous les utilisateurs présents dans la BD
+     * @return
+     */
     @GET
     @Path("/getAllUser")
     @Produces(MediaType.APPLICATION_JSON)

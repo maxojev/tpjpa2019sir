@@ -78,6 +78,10 @@ public class Personne {
         this.mesReunionsCreees = mesReunionsCreees;
     }
 
+    public long getIdPersonne() {
+        return idPersonne;
+    }
+
     @Override
     public String toString() {
         return "Personne{" +

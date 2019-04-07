@@ -15,19 +15,26 @@ public class UserDao {
     private EntityTransaction tx = manager.getTransaction();
 
 
-    public boolean validateLogin(Personne personne){
+    public Long validateLogin(Personne personne){
 
-//        return manager.contains(personne);
-        Query query = manager.createNativeQuery(  "SELECT * FROM PERSONNE where nom =? and prenom =? and mail =?");
-        query.setParameter(1, personne.getNom())
-                .setParameter(2, personne.getPrenom())
-                .setParameter(3, personne.getMail());
+        List rs =  manager.createQuery("select p.idPersonne from Personne p where p.nom=:nom and p.prenom=:prenom and p.mail=:mail")
+                .setParameter("nom",personne.getNom())
+                .setParameter("prenom",personne.getPrenom())
+                .setParameter("mail",personne.getMail())
+                .getResultList();
 
-        List<Integer> rs = query.getResultList();
+        long idPersonne=0;
 
-        return !rs.isEmpty();
+        if(!rs.isEmpty()){
+
+            for(Object ligne : rs)
+            {
+                idPersonne = (Long) ligne;
+            }
+        }
+
+        return idPersonne;
     }
-
 
     public Personne addUser(Personne personne){
 
@@ -37,7 +44,7 @@ public class UserDao {
         return personne;
     }
 
-    public  List<Personne> getAllUser(){
+    public List<Personne> getAllUser(){
 
         return   manager.createQuery("select p.nom, p.prenom,p.mail From Personne p").getResultList();
 

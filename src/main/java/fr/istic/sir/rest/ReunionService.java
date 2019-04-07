@@ -10,12 +10,14 @@ import jpa.Sdate;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -29,60 +31,95 @@ public class ReunionService {
     UserDao userDao=new UserDao();
     Collection<Sdate> datesProposees =new HashSet<Sdate>();
     Collection<Lieu> lieuProposees = new HashSet<Lieu>();
-    Personne personne;
+    List<Reunion> lesPropositionsEnCours = new ArrayList<Reunion>();
 
 
-
+    /**
+     * Ajout d'une proposition de réunion par une personne avec un set de dates possibles
+     * et/ou un set de lieux possibles. Le choix du type de proposition de réunion est controlé
+     * par une variable option
+     * @param reu
+     * @return
+     * @throws JSONException
+     * @throws ParseException
+     */
     @POST
     @Path("/addReunion")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Reunion addReunion(JSONObject reu) throws JSONException, ParseException {
 
-        if(reu.getString("reunionType").equalsIgnoreCase("option1")){
+        if(reu.getString("reunionType").equalsIgnoreCase("1")){
 
             datesProposees= createSetDateProposeForReunion(reu);
             lieuProposees=  createSetLieuProposeForReunion(reu);
 
-        }else if(reu.getString("reunionType").equalsIgnoreCase("option2")){
-            System.out.println("monoption2");
+        }else if(reu.getString("reunionType").equalsIgnoreCase("2")){
+
             datesProposees= createSetDateProposeForReunion(reu);
             lieuProposees=null;
-        }else if(reu.getString("reunionType").equalsIgnoreCase("option3")){
-            System.out.println("monoption3");
+
+        }else if(reu.getString("reunionType").equalsIgnoreCase("0")){
+
             lieuProposees=  createSetLieuProposeForReunion(reu);
             datesProposees=null;
         }
 
-        personne = new Personne(reu.getJSONObject("createur").getString("nom"),reu.getJSONObject("createur").getString("prenom"),reu.getJSONObject("createur").getString("mail"));
+//        personne = new Personne(reu.getJSONObject("createur").getString("nom"),reu.getJSONObject("createur").getString("prenom"),reu.getJSONObject("createur").getString("mail"));
 
-        Personne p= userDao.getUser(personne);
+        Personne p= userDao.getUserById(reu.getLong("idPersonne"));
 
-        reunion = new Reunion(reu.getString("intitule"),reu.getString("resume"),p,datesProposees,lieuProposees);
+        System.err.println(reu.toString());
+
+        reunion = new Reunion(reu.getJSONObject("reunion").optString("intitule"),reu.getJSONObject("reunion").optString("resume"),p,datesProposees,lieuProposees);
 
         return reunionDao.addReunion(reunion);
-
-
     }
 
+
+    /**
+     * Retourne la liste de toutes les réunions présentes dans la BD. en fonction de la valeur des
+     * champs dateChoisie et lieuChoisie une réunion est considérée comme créée ou proposée
+     * @return
+     */
     @GET
     @Path("/getAllReunion")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Reunion> getAllReunion(){
+
+ /*       for(Object ligne: reunionDao.getAllReunion()){
+            Object[] r = (Object[]) ligne;
+
+            if(r.getDateValidee() == null){
+                lesPropositionsEnCours.add(r);
+            }
+        } */
         return reunionDao.getAllReunion();
     }
 
+
+    /**
+     * retourne une réunion donnée en fonction de son iD
+     * @param reunion
+     * @return
+     * @throws JSONException
+     */
     @POST
     @Path("/getOneReunion")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Reunion getOneReunion(JSONObject reunion) throws JSONException {
 
-
         return reunionDao.getOneReunion(reunion.getLong("idReunion"));
     }
 
+
+    /**
+     * Renseigne les champs dateChoisie et/ou lieuChoisie en fonction du résultat des sondages
+     * @param reunion
+     * @return
+     * @throws JSONException
+     */
     @POST
     @Path("/createReunionAfterSondage")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -123,7 +160,7 @@ public class ReunionService {
 
     private Boolean stringCheckBoxToBoolean(String value){
 
-        return !(value!=null);
+        return !(value!="");
     }
 
     private Collection<Sdate> createSetDateProposeForReunion(JSONObject reu) throws JSONException, ParseException {
@@ -131,16 +168,16 @@ public class ReunionService {
 
         Collection<Sdate> d =new HashSet<Sdate>();
 
-        Date date1 = stringToDate(reu.getJSONObject("mesDatesPauses").getJSONObject("DatePause1").getString("date1"));
-        Boolean pause1 = stringCheckBoxToBoolean(reu.getJSONObject("mesDatesPauses").getJSONObject("DatePause1").getString("pause1"));
+        Date date1 = stringToDate(reu.getJSONObject("reunion").getString("date1"));
+        Boolean pause1 = stringCheckBoxToBoolean(reu.getJSONObject("reunion").optString("pause1"));
         d.add(new Sdate(date1,pause1));
 
-        Date date2 = stringToDate(reu.getJSONObject("mesDatesPauses").getJSONObject("DatePause2").getString("date2"));
-        Boolean pause2 = stringCheckBoxToBoolean(reu.getJSONObject("mesDatesPauses").getJSONObject("DatePause2").getString("pause2"));
+        Date date2 = stringToDate(reu.getJSONObject("reunion").getString("date2"));
+        Boolean pause2 = stringCheckBoxToBoolean(reu.getJSONObject("reunion").optString("pause2"));
         d.add(new Sdate(date2,pause2));
 
-        Date date3 = stringToDate(reu.getJSONObject("mesDatesPauses").getJSONObject("DatePause3").getString("date3"));
-        Boolean pause3 = stringCheckBoxToBoolean(reu.getJSONObject("mesDatesPauses").getJSONObject("DatePause3").getString("pause3"));
+        Date date3 = stringToDate(reu.getJSONObject("reunion").getString("date3"));
+        Boolean pause3 = stringCheckBoxToBoolean(reu.getJSONObject("reunion").optString("pause3"));
         d.add(new Sdate(date3,pause3));
 
         return d;
@@ -151,9 +188,9 @@ public class ReunionService {
 
         Collection<Lieu> l = new HashSet<Lieu>();
 
-        l.add(new Lieu(reu.getJSONObject("mesLieux").getString("lieu1")));
-        l.add(new Lieu(reu.getJSONObject("mesLieux").getString("lieu2")));
-        l.add(new Lieu(reu.getJSONObject("mesLieux").getString("lieu3")));
+        l.add(new Lieu(reu.getJSONObject("reunion").getString("lieu1")));
+        l.add(new Lieu(reu.getJSONObject("reunion").getString("lieu2")));
+        l.add(new Lieu(reu.getJSONObject("reunion").getString("lieu3")));
 
         return l;
     }
