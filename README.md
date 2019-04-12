@@ -13,7 +13,7 @@ distinguer :
 
 Ci-dessous une illustattion schematique de l'architechture du projet
 
-![Couche](couche.PNG)
+![](img/couche.PNG)
 
 Dans le repertoire source du projet, nous avons:
 
