@@ -27,12 +27,12 @@ public class Reunion {
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn
-    @JsonBackReference
+    @JsonManagedReference
     private Collection<Sdate> datesProposees;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinColumn
-    @JsonBackReference
+    @JsonManagedReference
     private Collection<Lieu> lieuProposes;
 
     @OneToOne(cascade = CascadeType.PERSIST)

@@ -20,7 +20,7 @@ public class Sdate {
     private Boolean pause;
 
     @OneToOne(mappedBy = "dateValidee", cascade = CascadeType.PERSIST)
-    @JsonManagedReference
+    @JsonBackReference
     private Reunion reunion;
 
     @OneToMany(mappedBy = "dateChoisie", cascade = CascadeType.PERSIST)

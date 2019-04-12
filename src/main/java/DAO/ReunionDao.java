@@ -30,7 +30,7 @@ public class ReunionDao {
 
     public List<Reunion> getAllReunion(){
 
-        return (manager.createQuery("select r.idReunion,r.intitule,r.resume,r.dateValidee,r.lieuValide from Reunion r").getResultList());
+        return (manager.createQuery("select r from Reunion r where r.dateValidee is null and r.lieuValide is null").getResultList());
     }
 
     public Reunion getOneReunion(Long idReunion){

@@ -87,13 +87,6 @@ public class ReunionService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Reunion> getAllReunion(){
 
- /*       for(Object ligne: reunionDao.getAllReunion()){
-            Object[] r = (Object[]) ligne;
-
-            if(r.getDateValidee() == null){
-                lesPropositionsEnCours.add(r);
-            }
-        } */
         return reunionDao.getAllReunion();
     }
 

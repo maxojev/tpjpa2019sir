@@ -18,7 +18,7 @@ public class Lieu {
     private String nomLieu;
 
     @OneToOne(mappedBy = "lieuValide",cascade = CascadeType.PERSIST)
-    @JsonManagedReference
+    @JsonBackReference
     private Reunion reunion;
 
     @OneToMany(mappedBy = "lieuChoisie", cascade = CascadeType.PERSIST)
