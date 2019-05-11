@@ -29,3 +29,4 @@ Exemple de classe métier du projet :
 de la classe java EntityManagerHelper fourni par Olivier Barais ayant permis à chaque fois de faciliter les interactions sur la base de données (Selections,Insertions, mises à jour, Suppression)
 
 * Un package **fr.istic.sir.rest** où figure les classes de service REST 
+Le backend est disponible sur la branche : brancheMax
