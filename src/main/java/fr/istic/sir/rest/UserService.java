@@ -69,8 +69,7 @@ public class UserService {
     @Path("/getAllUser")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Personne> getAllUsers(){
-
-       return userDao.getAllUser();
+        return userDao.getAllUser();
     }
 
 }

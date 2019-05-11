@@ -1,9 +1,6 @@
 package DAO;
 
-import jpa.EntityManagerHelper;
-import jpa.Lieu;
-import jpa.Reunion;
-import jpa.Sdate;
+import jpa.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -39,14 +36,16 @@ public class ReunionDao {
 
     public Sdate getDateChoisie(Long idReunion){
 
-        List rs = manager.createQuery("select e.dateChoisie_bis.idDate, count(e.dateChoisie_bis.idDate) " +
-                     "as nbr from ElementSondageDateLieu e where e.mareunion.idReunion =:name" +
-                     " group by e.dateChoisie_bis.idDate " +
-                     "order by nbr desc ")
+
+            List rs = manager.createQuery("select e.dateChoisie.idDate, count(e.dateChoisie.idDate) " +
+                    "as nbr from ElementSondageDate e where e.mareunion.idReunion =:name" +
+                    " group by e.dateChoisie.idDate " +
+                    "order by nbr desc ")
                     .setParameter("name",idReunion)
                     .getResultList();
 
         long idDate = traitementListTolong(rs);
+        System.out.println("dateMax"+idDate);
 
          List rsd =  manager.createQuery("select d.madate,d.pause from Sdate d where d.idDate =:var ")
                 .setParameter("var",idDate)
@@ -62,14 +61,14 @@ public class ReunionDao {
             pause = (Boolean) l[1];
         }
 
-        return (new Sdate(var,pause));
+        return (new Sdate(var,pause,idDate));
     }
 
     public Lieu getLieuChoisie(Long idReunion){
 
-        List rs = manager.createQuery("select e.lieuChoisie_bis.iDLieu, count(e.lieuChoisie_bis.iDLieu) " +
-                "as nbr from ElementSondageDateLieu e where e.mareunion.idReunion =:name" +
-                " group by e.lieuChoisie_bis.iDLieu " +
+        List rs = manager.createQuery("select e.lieuChoisie.iDLieu, count(e.lieuChoisie.iDLieu) " +
+                "as nbr from ElementSondageLieu e where e.mareunion.idReunion =:name" +
+                " group by e.lieuChoisie.iDLieu " +
                 "order by nbr desc ")
                 .setParameter("name",idReunion)
                 .getResultList();
@@ -87,8 +86,31 @@ public class ReunionDao {
             var = (String)ligne;
         }
 
-        return (new Lieu(var));
+        return (new Lieu(var,iDLieu));
 
+    }
+
+    public Reunion setDateChoisie(Reunion r){
+
+        tx.begin();
+        manager.merge(r);
+        tx.commit();
+
+        return r;
+    }
+
+    public Reunion setLieuChoisie(Reunion r){
+        tx.begin();
+        manager.merge(r);
+        tx.commit();
+        return r;
+    }
+
+    public List<Reunion> getMyAllReunion(Personne personne){
+
+        return (manager.createQuery("select r from Reunion r where r.dateValidee is null and r.lieuValide is null and r.createur =:pers and r.mesElementSondage is not empty")
+                .setParameter("pers", personne)
+                .getResultList());
     }
 
     protected long traitementListTolong(List rs){

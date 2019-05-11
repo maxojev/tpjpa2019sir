@@ -1,6 +1,8 @@
 package fr.istic.sir.rest;
 
+import DAO.LieuDao;
 import DAO.ReunionDao;
+import DAO.SdateDao;
 import DAO.UserDao;
 import jpa.Lieu;
 import jpa.Personne;
@@ -26,6 +28,8 @@ import java.util.List;
 @Path("/ReunionService")
 public class ReunionService {
 
+    LieuDao lieuDao=new LieuDao();
+    SdateDao sdateDao=new SdateDao();
     Reunion reunion;
     ReunionDao reunionDao =new ReunionDao();
     UserDao userDao=new UserDao();
@@ -114,23 +118,64 @@ public class ReunionService {
      * @throws JSONException
      */
     @POST
-    @Path("/createReunionAfterSondage")
+    @Path("/resulatSondage")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-   public Reunion createReunionAfterSondage(JSONObject reunion) throws JSONException {
+   public List afterSondage(JSONObject reunion) throws JSONException {
 
+        List list = new ArrayList();
         Reunion r = reunionDao.getOneReunion(reunion.getLong("idReunion"));
 
         if (!r.getDatesProposees().isEmpty() && !r.getLieuProposes().isEmpty()) {
-            r.setDateValidee(reunionDao.getDateChoisie(r.getIdReunion()));
-            r.setLieuValide(reunionDao.getLieuChoisie((r.getIdReunion())));
+
+
+            list.add(reunionDao.getDateChoisie(r.getIdReunion()));
+            list.add(reunionDao.getLieuChoisie(r.getIdReunion()));
+
+
         } else if (r.getDatesProposees().isEmpty() && !r.getLieuProposes().isEmpty()) {
-            r.setLieuValide(reunionDao.getLieuChoisie((r.getIdReunion())));
+
+            list.add(reunionDao.getLieuChoisie(r.getIdReunion()));
+
         } else if (!r.getDatesProposees().isEmpty() && r.getLieuProposes().isEmpty()) {
-            r.setDateValidee(reunionDao.getDateChoisie(r.getIdReunion()));
+
+            list.add(reunionDao.getDateChoisie(r.getIdReunion()));
         }
 
-        return reunionDao.addReunion(r);
+
+        return list;
+    }
+
+
+    @POST
+    @Path("/createParticipeSondage")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Reunion participeSondage(JSONObject reunion) throws JSONException{
+
+        Reunion r = reunionDao.getOneReunion(reunion.getLong("idReunion"));
+
+        if (reunion.getLong("idL") != 0 && reunion.getLong("idD") != 0 ){
+
+            r.setLieuValide(lieuDao.getLieuById(reunion.getLong("idL")));
+            r.setDateValidee(sdateDao.getDateById(reunion.getLong("idD")));
+            reunionDao.setDateChoisie(r);
+            reunionDao.setLieuChoisie(r);
+
+        } else if(reunion.getLong("idL") != 0){
+            System.out.println("Jesuis là");
+            System.out.println(lieuDao.getLieuById(reunion.getLong("idL")));
+
+            r.setLieuValide(lieuDao.getLieuById(reunion.getLong("idL")));
+
+            reunionDao.setLieuChoisie(r);
+
+        } else if(reunion.getLong("idD") != 0){
+
+            r.setDateValidee(sdateDao.getDateById(reunion.getLong("idD")));
+            reunionDao.setDateChoisie(r);
+        }
+        return r;
     }
 
     @POST
@@ -141,7 +186,7 @@ public class ReunionService {
 
         Personne personne = userDao.getUserById(reunion.getLong("idUser"));
 
-        return personne.getMesReunionsCreees();
+        return reunionDao.getMyAllReunion(personne);
     }
 
     private Date stringToDate (String value) throws ParseException {

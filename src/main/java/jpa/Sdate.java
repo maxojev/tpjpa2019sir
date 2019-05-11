@@ -40,6 +40,12 @@ public class Sdate {
         this.pause = pause;
     }
 
+    public Sdate(java.sql.Date date, Boolean pause, long idDate) {
+        this.idDate = idDate;
+        this.madate = date;
+        this.pause = pause;
+    }
+
     public Long getIdDate() {
         return idDate;
     }

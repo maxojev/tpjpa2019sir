@@ -50,26 +50,23 @@ public class ElementSondageService {
 
         Reunion r = reunionDao.getOneReunion(sondage.getLong("idReunion"));
 
-        personne = new Personne(sondage.getJSONObject("participant").getString("nom"), sondage.getJSONObject("participant").getString("prenom"), sondage.getJSONObject("participant").getString("mail"));
-
-        Personne participant = userDao.getUser(personne);
-
+        Personne participant = userDao.getUserById(sondage.getLong("idparticipant"));
 
         if (!r.getDatesProposees().isEmpty() && !r.getLieuProposes().isEmpty()) {
 
-            Sdate datechoisie = sdateDao.getDateById(sondage.getLong("idDatechoisie"));
-            Lieu lieuchoisie = lieuDao.getLieuById(sondage.getLong("idLieuchoisie"));
+            Sdate datechoisie = sdateDao.getDateById(sondage.getLong("idD"));
+            Lieu lieuchoisie = lieuDao.getLieuById(sondage.getLong("idL"));
 
            elementSondageDao.saveDL(new ElementSondageDateLieu(lieuchoisie, datechoisie, participant, r));
 
         } else if (!r.getDatesProposees().isEmpty() && r.getLieuProposes().isEmpty()) {
 
-            Sdate datechoisie = sdateDao.getDateById(sondage.getLong("idDatechoisie"));
+            Sdate datechoisie = sdateDao.getDateById(sondage.getLong("idD"));
             elementSondageDao.saveD(new ElementSondageDate(datechoisie, participant, r));
 
         } else if (r.getDatesProposees().isEmpty() && !r.getLieuProposes().isEmpty()) {
 
-            Lieu lieuchoisie = lieuDao.getLieuById(sondage.getLong("idLieuchoisie"));
+            Lieu lieuchoisie = lieuDao.getLieuById(sondage.getLong("idL"));
             elementSondageDao.saveL(new ElementSondageLieu(lieuchoisie, participant, r));
         }
 

@@ -33,7 +33,10 @@ public class Lieu {
     test
      */
 
-
+    public Lieu(String nomLieu, Long iDLieu) {
+        this.nomLieu = nomLieu;
+        this.iDLieu = iDLieu;
+    }
 
     public Lieu(String nomLieu) {
         this.nomLieu = nomLieu;
